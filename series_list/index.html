@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Поиск сериалов</title>
+    <base href="/">
+    <link rel="stylesheet" href="../style/index.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+
+        .main-content {
+            max-width: 1920px;
+            margin: 0 auto;
+            padding: 0 310px;
+            display: flex;
+            gap: 40px;
+            margin-top: 40px;
+        }
+
+        /* Стили для фильтров */
+        .filters-column {
+            width: 280px;
+            flex-shrink: 0;
+        }
+
+        .filters-header {
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--primary-color);
+        }
+
+        .filters-header h2 {
+            font-weight: 700;
+            font-size: 28px;
+            color: var(--text-dark);
+        }
+
+        body.dark-theme .filters-header h2 {
+            color: var(--text-light);
+        }
+
+        .filters-container {
+            background: var(--bg-light);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        body.dark-theme .filters-container {
+            background: var(--header-bg-dark);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .filter-dropdown {
+            margin-bottom: 25px;
+        }
+
+        .filter-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            cursor: pointer;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .filter-header h3 {
+            font-weight: 600;
+            font-size: 20px;
+            color: var(--text-dark);
+        }
+
+        body.dark-theme .filter-header h3 {
+            color: var(--text-light);
+        }
+
+        .filter-chevron {
+            transition: transform 0.3s;
+            color: var(--text-dark);
+        }
+
+        body.dark-theme .filter-chevron {
+            color: var(--text-light);
+        }
+
+        .filter-content {
+            padding: 15px 0;
+            display: none;
+        }
+
+        .filter-dropdown.active .filter-content {
+            display: block;
+        }
+
+        .filter-options {
+            display: grid;
+            gap: 12px;
+            max-height: 300px;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+
+        .filter-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .filter-option input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            accent-color: var(--primary-color);
+        }
+
+        .filter-option label {
+            font-weight: 500;
+            font-size: 18px;
+            color: var(--text-dark);
+            cursor: pointer;
+        }
+
+        body.dark-theme .filter-option label {
+            color: var(--text-light);
+        }
+
+        .filter-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .filter-btn {
+            padding: 15px;
+            border: none;
+            border-radius: 15px;
+            font-weight: 700;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .filter-btn.apply {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .filter-btn.reset {
+            background: transparent;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+        }
+
+        /* Стили для списка */
+        .movies-column {
+            flex: 1;
+        }
+
+        .movies-section {
+            margin-bottom: 60px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .section-header h2 {
+            font-weight: 700;
+            font-size: 28px;
+            color: var(--text-dark);
+        }
+
+        body.dark-theme .section-header h2 {
+            color: var(--text-light);
+        }
+
+        .movies-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+            overflow: hidden;
+        }
+
+        /* ИСПРАВЛЕННАЯ КАРТОЧКА */
+        .movie-card {
+            background: transparent;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: none;
+            transition: transform 0.3s;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            /* Убраны внешние отступы */
+            max-width: 100%;
+            box-sizing: border-box;
+        }
+
+        body.dark-theme .movie-card {
+            background: transparent;
+            box-shadow: none;
+        }
+
+        .movie-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .movie-poster-container {
+            height: 350px;
+            overflow: hidden;
+            position: relative;
+            border-radius: 15px 15px 0 0;
+        }
+
+        .movie-poster {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+
+        .movie-card:hover .movie-poster {
+            transform: scale(1.05);
+        }
+
+        .movie-info-container {
+            background: #000;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            border-radius: 0 0 15px 15px;
+            min-height: 110px;
+        }
+
+        .movie-title {
+            font-weight: 700;
+            font-size: 20px;
+            color: white;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            min-height: 3em;
+            margin-bottom: 10px;
+        }
+
+        .movie-rating-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .movie-rating {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-weight: 700;
+            font-size: 18px;
+            color: #FFC107;
+        }
+
+        /* Пагинация */
+        .pagination-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 40px;
+            gap: 15px;
+        }
+
+        .pagination {
+            display: flex;
+            gap: 10px;
+        }
+
+        .page-btn {
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid var(--primary-color);
+            border-radius: 10px;
+            background: transparent;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 700;
+            font-size: 18px;
+            color: var(--primary-color);
+        }
+
+        .page-btn:hover, .page-btn.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .page-btn.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .results-count {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        body.dark-theme .results-count {
+            color: var(--text-light);
+        }
+
+        /* Загрузка */
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 400px;
+            grid-column: 1 / -1;
+        }
+
+        .spinner {
+            width: 60px;
+            height: 60px;
+            border: 6px solid rgba(0, 0, 0, 0.1);
+            border-top: 6px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Сообщение об отсутствии результатов */
+        .no-results {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 60px;
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        body.dark-theme .no-results {
+            color: var(--text-light);
+        }
+
+        /* Адаптивность */
+        @media (max-width: 1600px) {
+            .main-content {
+                padding: 0 10%;
+            }
+        }
+
+        @media (max-width: 1200px) {
+            .main-content {
+                flex-direction: column;
+                padding: 0 5%;
+            }
+
+            .filters-column {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .movies-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .movie-poster-container {
+                height: 400px;
+            }
+
+            .pagination-container {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Шапка -->
+    <header class="header">
+        <div class="header-container">
+            <div class="logo">
+                <img src="/Frontend/assets/icons/diplom_logo-PhotoRoom.png" alt="КиноПоиск">
+            </div>
+
+            <nav class="nav">
+                <ul>
+                    <li><a href="/Frontend/movie_list/index.html">Фильмы</a></li>
+                    <li><a href="Frontend/series_list/index.html">Сериалы</a></li>
+                </ul>
+            </nav>
+
+            <div class="theme-switch">
+                <span>Тёмная тема</span>
+                <div class="theme-toggle" id="themeToggle">
+                    <div class="toggle-circle"></div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Блок поиска -->
+    <section class="search-section">
+        <div class="background-image" style="background-image: url('assets/images/search-bg.jpg');"></div>
+        <div class="search-container">
+            <div class="search-box">
+                <div class="search-icon">
+                    <img src="assets/icons/magnifying-glass.png" alt="Поиск" width="32" height="32">
+                </div>
+                <input type="text" id="searchInput" placeholder="Что сегодня посмотреть?">
+                <button class="search-btn" id="searchBtn">Найти</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Основной контент -->
+    <div class="main-content">
+        <!-- Фильтры -->
+        <aside class="filters-column">
+            <div class="filters-header">
+                <h2>Фильтры</h2>
+            </div>
+
+            <div class="filters-container">
+                <div class="filter-dropdown active" id="genreFilter">
+                    <div class="filter-header">
+                        <h3>Жанр</h3>
+                        <i class="fas fa-chevron-down filter-chevron"></i>
+                    </div>
+                    <div class="filter-content">
+                        <div class="filter-options">
+                            <div class="filter-option">
+                                <input type="checkbox" id="genre1" name="genre" value="драма">
+                                <label for="genre1">Драма</label>
+                            </div>
+                            <div class="filter-option">
+                                <input type="checkbox" id="genre2" name="genre" value="комедия">
+                                <label for="genre2">Комедия</label>
+                            </div>
+                            <div class="filter-option">
+                                <input type="checkbox" id="genre3" name="genre" value="боевик">
+                                <label for="genre3">Боевик</label>
+                            </div>
+                            <div class="filter-option">
+                                <input type="checkbox" id="genre4" name="genre" value="фантастика">
+                                <label for="genre4">Фантастика</label>
+                            </div>
+                            <div class="filter-option">
+                                <input type="checkbox" id="genre5" name="genre" value="триллер">
+                                <label for="genre5">Триллер</label>
+                            </div>
+                            <div class="filter-option">
+                                <input type="checkbox" id="genre6" name="genre" value="ужасы">
+                                <label for="genre6">Ужасы</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="filter-dropdown active" id="ratingFilter">
+                    <div class="filter-header">
+                        <h3>Рейтинг</h3>
+                        <i class="fas fa-chevron-down filter-chevron"></i>
+                    </div>
+                    <div class="filter-content">
+                        <div class="filter-options">
+                            <div class="filter-option">
+                                <input type="checkbox" id="rating1" name="rating" value="9-10">
+                                <label for="rating1">9+ (Отлично)</label>
+                            </div>
+                            <div class="filter-option">
+                                <input type="checkbox" id="rating2" name="rating" value="7-8.9">
+                                <label for="rating2">7-8.9 (Хорошо)</label>
+                            </div>
+                            <div class="filter-option">
+                                <input type="checkbox" id="rating3" name="rating" value="5-6.9">
+                                <label for="rating3">5-6.9 (Средне)</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="filter-dropdown" id="countryFilter">
+                    <div class="filter-header">
+                        <h3>Страна</h3>
+                        <i class="fas fa-chevron-down filter-chevron"></i>
+                    </div>
+                    <div class="filter-content">
+                        <div class="filter-options">
+                            <div class="filter-option">
+                                <input type="checkbox" id="country1" name="country" value="США">
+                                <label for="country1">США</label>
+                            </div>
+                            <div class="filter-option">
+                                <input type="checkbox" id="country2" name="country" value="Россия">
+                                <label for="country2">Россия</label>
+                            </div>
+                            <div class="filter-option">
+                                <input type="checkbox" id="country3" name="country" value="Великобритания">
+                                <label for="country3">Великобритания</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="filter-dropdown" id="yearFilter">
+                    <div class="filter-header">
+                        <h3>Год выпуска</h3>
+                        <i class="fas fa-chevron-down filter-chevron"></i>
+                    </div>
+                    <div class="filter-content">
+                        <div class="filter-options">
+                            <div class="filter-option">
+                                <input type="checkbox" id="year1" name="year" value="2020-2023">
+                                <label for="year1">2020-2023</label>
+                            </div>
+                            <div class="filter-option">
+                                <input type="checkbox" id="year2" name="year" value="2010-2019">
+                                <label for="year2">2010-2019</label>
+                            </div>
+                            <div class="filter-option">
+                                <input type="checkbox" id="year3" name="year" value="2000-2009">
+                                <label for="year3">2000-2009</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="filter-buttons">
+                    <button class="filter-btn apply" id="applyFilters">Применить фильтры</button>
+                    <button class="filter-btn reset" id="resetFilters">Сбросить фильтры</button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Список фильмов -->
+        <main class="movies-column">
+            <section class="movies-section">
+                <div class="section-header">
+                    <h2>Результаты поиска</h2>
+                    <div class="results-count" id="resultsCount">Найдено сериалов: 0</div>
+                </div>
+
+                <div class="pagination-container">
+                    <div class="pagination" id="pagination">
+                        <!-- Кнопки пагинации будут добавлены динамически -->
+                    </div>
+                </div>
+
+                <div class="movies-grid" id="moviesGrid">
+                    <div class="loading">
+                        <div class="spinner"></div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Подвал -->
+    <footer class="footer">
+        <div class="footer-container">
+            <p class="copyright">© 2025 Дмитрий Семенов </p>
+            <div class="social-links">
+                <a href="#" class="social-icon">
+                    <img src="assets/icons/telegram.svg" alt="Telegram">
+                </a>
+                <a href="#" class="social-icon">
+                    <img src="assets/icons/vk.svg" alt="VK">
+                </a>
+                <a href="#" class="social-icon">
+                    <img src="assets/icons/yandex-zen.svg" alt="Yandex Zen">
+                </a>
+                <a href="#" class="social-icon">
+                    <img src="assets/icons/youtube.svg" alt="YouTube">
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <script src="script/series_list.js"></script>
+</body>
+</html>

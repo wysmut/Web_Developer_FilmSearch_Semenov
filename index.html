@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>КиноПоиск - Главная</title>
+    <base href="/">
+    <link rel="stylesheet" href="style/index.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="header-container">
+            <div class="logo">
+                <img src="assets/icons/diplom_logo-PhotoRoom.png" alt="КиноПоиск">
+            </div>
+
+            <nav class="nav">
+                <ul>
+                    <li><a href="Frontend/movie_list/index.html">Фильмы</a></li>
+                    <li><a href="Frontend/series_list/index.html">Сериалы</a></li>
+                </ul>
+            </nav>
+
+            <div class="theme-switch">
+                <span>Тёмная тема</span>
+                <div class="theme-toggle" id="themeToggle">
+                    <div class="toggle-circle"></div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Герой-баннер -->
+    <section class="hero-banner">
+       <div class="background-image" style="background-image: url('assets/images/hero-bg.jpg');"></div>
+       <h1>Что сегодня посмотреть?</h1>
+    </section>
+
+    <!-- Карусель фильмов -->
+    <section class="movie-carousel">
+        <div class="carousel-container">
+            <div class="movie-card">
+                <div class="movie-poster" style="background-image: url('assets/images/movie1.jpg');">
+                    <div class="movie-rating">9.8</div>
+                </div>
+                <div class="movie-info">
+                    <h3 class="movie-title">Проклятое королевство</h3>
+                </div>
+            </div>
+
+            <div class="movie-card">
+                <div class="movie-poster" style="background-image: url('assets/images/movie2.jpg');">
+                    <div class="movie-rating">9.8</div>
+                </div>
+                <div class="movie-info">
+                    <h3 class="movie-title">Код красный</h3>
+                </div>
+            </div>
+
+            <div class="movie-card">
+                <div class="movie-poster" style="background-image: url('assets/images/movie3.jpg');">
+                    <div class="movie-rating">9.8</div>
+                </div>
+                <div class="movie-info">
+                    <h3 class="movie-title">Путеводная звезда</h3>
+                </div>
+            </div>
+        </div>
+
+        <button class="carousel-arrow right">
+            <svg width="20" height="40" viewBox="0 0 20 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M5 35L15 20L5 5" stroke="currentColor" stroke-width="5" stroke-linecap="round"/>
+            </svg>
+        </button>
+    </section>
+
+    <!-- Поиск фильмов -->
+    <section class="search-section">
+        <div class="background-image" style="background-image: url('assets/images/search-bg.jpg');"></div>
+        <div class="search-container">
+            <div class="search-box">
+                <div class="search-icon">
+                    <img src="assets/icons/magnifying-glass.png" alt="Поиск" width="32" height="32">
+                </div>
+                <input type="text" id="mainSearchInput" placeholder="Что сегодня посмотреть?">
+                <button class="search-btn" id="mainSearchBtn">Найти</button>
+            </div>
+      </div>
+    </section>
+    <section class="info-section">
+        <div class="background-image" style="background-image: url('assets/images/info-bg.jpg');"></div>
+        <div class="info-container">
+            <h2>Давайте вместе откроем мир кинопокусства!</h2>
+            <p>«Что сегодня посмотреть?» — ваш надежный гид в мире кино. Ищите фильмы и сериалы по названию, жанру, году выпуска или рейтингу, чтобы выбрать идеальное кино для любого настроения. Погрузитесь в подробную информацию о каждом фильме, посмотрите трейлеры и проведите отличный вечер в компании интересного кино.</p>
+        </div>
+    </section>
+    <footer class="footer">
+        <div class="footer-container">
+            <p class="copyright">© 2025 Дмитрий Семенов </p>
+            <div class="social-links">
+                <a href="#" class="social-icon">
+                    <img src="Frontend/assets/icons/telegram.svg" alt="Telegram">
+                </a>
+                <a href="#" class="social-icon">
+                    <img src="Frontend/assets/icons/vk.svg" alt="VK">
+                </a>
+                <a href="#" class="social-icon">
+                    <img src="Frontend/assets/icons/yandex-zen.svg" alt="Yandex Zen">
+                </a>
+                <a href="#" class="social-icon">
+                    <img src="Frontend/assets/icons/youtube.svg" alt="YouTube">
+                </a>
+            </div>
+        </div>
+    </footer>
+    <script src="script/main.js"></script>
+</body>
+</html>
