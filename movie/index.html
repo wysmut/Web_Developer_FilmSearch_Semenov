@@ -16,17 +16,15 @@
             box-sizing: border-box;
         }
 
-        /* КОНТЕЙНЕР ДЛЯ ПОСТЕРА И ИНФОРМАЦИИ - ГРИД СТРУКТУРА */
         .movie-header {
             display: grid;
-            grid-template-columns: 350px 1fr; /* Постер 350px, информация остальное */
-            grid-template-rows: auto 1fr; /* Название и блок "О фильме" */
-            gap: 0 20px; /* Вертикальный и горизонтальный зазор */
+            grid-template-columns: 350px 1fr; 
+            grid-template-rows: auto 1fr; 
+            gap: 0 20px; 
             margin-bottom: 50px;
             min-height: 500px;
         }
 
-        /* ПОСТЕР - ЗАНИМАЕТ ВСЮ ВЫСОТУ ПЕРВОЙ КОЛОНКИ */
         .movie-poster-container {
             grid-column: 1;
             grid-row: 1 / span 2;
@@ -43,7 +41,6 @@
             display: block;
         }
 
-        /* НАЗВАНИЕ ФИЛЬМА - СТРОГО В ПРАВОЙ КОЛОНКЕ, НАД БЛОКОМ */
         .movie-title {
             grid-column: 2;
             grid-row: 1;
@@ -55,14 +52,13 @@
             word-wrap: break-word;
             overflow-wrap: break-word;
             padding-right: 10px;
-            align-self: end; /* Прижимаем к низу ячейки */
+            align-self: end;
         }
 
         body.dark-theme .movie-title {
             color: var(--text-light);
         }
 
-        /* БЛОК "О ФИЛЬМЕ" - СТРОГО ПОД НАЗВАНИЕМ В ПРАВОЙ КОЛОНКЕ */
         .movie-about {
             grid-column: 2;
             grid-row: 2;
@@ -284,7 +280,6 @@
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
         }
 
-        /* АДАПТИВНОСТЬ */
         @media (max-width: 1600px) {
             .movie-detail-container {
                 padding: 120px 10% 60px;
@@ -355,7 +350,6 @@
     </style>
 </head>
 <body>
-    <!-- Шапка -->
     <header class="header">
         <div class="header-container">
             <div class="logo">
@@ -380,17 +374,13 @@
 
     <!-- Основной контент -->
     <main class="movie-detail-container">
-        <!-- ГРИД СТРУКТУРА ДЛЯ СТРОГОГО РАСПОЛОЖЕНИЯ -->
         <section class="movie-header">
-            <!-- Постер (строго слева) -->
             <div class="movie-poster-container">
                 <img id="moviePoster" class="movie-poster" alt="Постер фильма">
             </div>
 
-            <!-- Название фильма (строго справа от постера) -->
             <h1 id="movieTitle" class="movie-title">Название фильма</h1>
 
-            <!-- Блок "О фильме" (строго под названием) -->
             <div class="movie-about">
                 <h2>О фильме</h2>
                 <div class="movie-details-container">
