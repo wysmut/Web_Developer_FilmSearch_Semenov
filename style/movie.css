@@ -1,0 +1,121 @@
+.movie-detail {
+    padding: 50px 0;
+}
+
+.movie-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.movie-header h1 {
+    font-size: 2.5rem;
+}
+
+.rating {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: var(--primary);
+    background: rgba(255, 87, 34, 0.1);
+    padding: 10px 20px;
+    border-radius: 8px;
+}
+
+.movie-content {
+    display: flex;
+    gap: 40px;
+    margin-bottom: 50px;
+}
+
+.poster {
+    flex: 0 0 300px;
+}
+
+.poster img {
+    width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+.info {
+    flex: 1;
+}
+
+.details {
+    background: var(--card-bg);
+    padding: 25px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+}
+
+.details p {
+    margin-bottom: 12px;
+    font-size: 1.1rem;
+}
+
+.description {
+    margin-bottom: 40px;
+}
+
+.description h2 {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+}
+
+.description p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+}
+
+.gallery h2, .trailer h2 {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+}
+
+.gallery-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* Исправлена сетка */
+  gap: 15px;
+  margin-bottom: 40px;
+}
+
+.gallery-container::-webkit-scrollbar {
+    display: none;
+}
+
+.gallery-container img {
+    height: 200px;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+.trailer-container {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+    height: 0;
+    overflow: hidden;
+    border-radius: 8px;
+    background: #000;
+}
+
+.trailer-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+@media (max-width: 480px) {
+  .movie-content {
+    flex-direction: column;
+  }
+
+  .poster {
+    margin: 0 auto 20px;
+  }
+}
