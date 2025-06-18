@@ -2,9 +2,11 @@
 
 При исчерпании лимита бесплатного токена api.kinopoisk.dev потребуется его заменить на актуальный в следующих файлах: 
 
-'''script/movie.js
-script/series_list.js
-script/movie_list.js'''
+    script/movie.js
+    
+    script/series_list.js
+    
+    script/movie_list.js
 
 CSS специально оставил в html, было удобнее, если критично, то могу исправить.
 
