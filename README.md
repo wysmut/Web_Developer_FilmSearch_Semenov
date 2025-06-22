@@ -1,5 +1,14 @@
 # Web_Developer_FilmSearch_Semenov
 
+Дипломный проект: приложение для поиска фильмов
+
+Имя Фамилия — Дмитрий Семенов
+
+логин на GitHub — wysmut
+
+e-mail — info@dxyzsem.ru
+
+
 При исчерпании лимита бесплатного токена api.kinopoisk.dev потребуется его заменить на актуальный в следующих файлах: 
 
     script/movie.js
